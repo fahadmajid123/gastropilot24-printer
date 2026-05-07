@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.*
@@ -15,10 +16,18 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
 
     private lateinit var statusText: TextView
+    private lateinit var printerStatusText: TextView
     private lateinit var lastOrderText: TextView
+    private lateinit var testPrintButton: Button
+
     private val handler = Handler(Looper.getMainLooper())
     private val client = OkHttpClient()
-    private val printerManager by lazy { PrinterManager(this) }
+
+    private val printerManager by lazy {
+        PrinterManager(this) { status ->
+            runOnUiThread { printerStatusText.text = status }
+        }
+    }
 
     private val pollRunnable = object : Runnable {
         override fun run() {
@@ -30,9 +39,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         statusText = findViewById(R.id.statusText)
+        printerStatusText = findViewById(R.id.printerStatusText)
         lastOrderText = findViewById(R.id.lastOrderText)
-        try { printerManager.connectPrinter() } catch (e: Exception) {}
+        testPrintButton = findViewById(R.id.testPrintButton)
+
+        testPrintButton.setOnClickListener {
+            Log.d("MainActivity", "Test Druck gedrückt, isConnected=${printerManager.isConnected}")
+            printerManager.printTestPage()
+        }
+
+        try {
+            printerManager.connectPrinter()
+        } catch (e: Exception) {
+            Log.e("MainActivity", "connectPrinter Fehler: ${e.message}")
+        }
     }
 
     override fun onResume() {
@@ -87,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                         runOnUiThread { statusText.text = "Aktiv - warte auf Bestellungen..." }
                     }
                 } catch (e: Exception) {
-                    Log.e("MainActivity", "Fehler: ${e.message}")
+                    Log.e("MainActivity", "Parse Fehler: ${e.message}")
                 }
             }
         })
