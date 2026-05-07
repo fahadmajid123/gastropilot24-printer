@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
-import com.sunmi.peripheral.printer.ICallback
 import com.sunmi.peripheral.printer.IWoyouService
 
 class PrinterManager(private val context: Context) {
@@ -16,17 +15,20 @@ class PrinterManager(private val context: Context) {
 
     private val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            printerService = IWoyouService.Stub.asInterface(service)
-            isConnected = true
-            printerService?.printerInit(null)
-            Log.d(TAG, "Drucker verbunden")
+            try {
+                printerService = IWoyouService.Stub.asInterface(service)
+                isConnected = true
+                Log.d(TAG, "Drucker verbunden")
+            } catch (e: Exception) {
+                Log.e(TAG, "Verbindungsfehler: ${e.message}")
+                isConnected = false
+            }
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
             printerService = null
             isConnected = false
-            Log.d(TAG, "Drucker getrennt - versuche Neuverbindung...")
-            connectPrinter()
+            Log.d(TAG, "Drucker getrennt")
         }
     }
 
@@ -37,72 +39,40 @@ class PrinterManager(private val context: Context) {
             intent.action = "woyou.aidlservice.jiuiv5.IWoyouService"
             context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         } catch (e: Exception) {
-            Log.e(TAG, "Verbindungsfehler: ${e.message}")
+            Log.e(TAG, "Bind Fehler: ${e.message}")
         }
     }
 
     fun disconnectPrinter() {
         try {
             context.unbindService(serviceConnection)
-        } catch (e: Exception) {
-            Log.e(TAG, "Trennungsfehler: ${e.message}")
-        }
+        } catch (e: Exception) {}
     }
 
-    fun isConnected() = isConnected
-
     fun printOrder(order: Order) {
-        if (!isConnected || printerService == null) {
-            Log.e(TAG, "Drucker nicht verbunden")
+        val printer = printerService
+        if (!isConnected || printer == null) {
+            Log.w(TAG, "Drucker nicht verfügbar")
             return
         }
-
         try {
-            val printer = printerService!!
-
-            printer.printerInit(null)
             printer.lineWrap(1, null)
-
-            // Header
-            printer.printTextWithFont("NEUE BESTELLUNG\n", null, 28f, null)
-            printer.printText("================================\n", null)
-
-            // Bestellnummer & Zeit
+            printer.printText("NEUE BESTELLUNG\n", null)
+            printer.printText("================\n", null)
             printer.printText("Bestellung #${order.id}\n", null)
             printer.printText("${order.createdAt}\n", null)
-            printer.printText("--------------------------------\n", null)
-
-            // Kundenname
             printer.printText("Kunde: ${order.customerName}\n", null)
-            if (order.phone.isNotEmpty()) {
-                printer.printText("Tel: ${order.phone}\n", null)
-            }
-            printer.printText("--------------------------------\n", null)
-
-            // Bestellpositionen
-            printer.printTextWithFont("BESTELLUNG:\n", null, 22f, null)
+            if (order.phone.isNotEmpty()) printer.printText("Tel: ${order.phone}\n", null)
+            printer.printText("----------------\n", null)
             for (item in order.items) {
-                printer.printText("${item.quantity}x ${item.name}\n", null)
-                printer.printText("   EUR ${String.format("%.2f", item.price * item.quantity)}\n", null)
+                printer.printText("${item.quantity}x ${item.name}  EUR ${String.format("%.2f", item.price * item.quantity)}\n", null)
             }
-            printer.printText("================================\n", null)
-
-            // Gesamt
-            printer.printTextWithFont("GESAMT: EUR ${String.format("%.2f", order.total)}\n", null, 26f, null)
-
-            // Lieferart
+            printer.printText("================\n", null)
+            printer.printText("GESAMT: EUR ${String.format("%.2f", order.total)}\n", null)
             printer.printText("Art: ${order.deliveryType}\n", null)
-
-            if (order.notes.isNotEmpty()) {
-                printer.printText("Anmerkung: ${order.notes}\n", null)
-            }
-
-            printer.printText("================================\n", null)
-            printer.printText("     Vielen Dank!              \n", null)
+            if (order.notes.isNotEmpty()) printer.printText("Info: ${order.notes}\n", null)
             printer.printAndFeedPaper(60, null)
-
             Log.d(TAG, "Bestellung #${order.id} gedruckt")
-
         } catch (e: Exception) {
             Log.e(TAG, "Druckfehler: ${e.message}")
         }
