@@ -1,67 +1,375 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
-    android:background="#1a1a2e">
+    android:background="@color/gp_dark">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GastroPilot24"
-        android:textSize="28sp"
-        android:textColor="#ffffff"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+    <!-- IDLE SCREEN -->
+    <LinearLayout
+        android:id="@+id/idleScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bestelldrucker"
-        android:textSize="16sp"
-        android:textColor="#aaaaaa"
-        android:layout_marginBottom="40dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gastro"
+            android:textSize="36sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"/>
 
-    <TextView
-        android:id="@+id/statusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Starte..."
-        android:textSize="18sp"
-        android:textColor="#00ff88"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilot24"
+            android:textSize="36sp"
+            android:textColor="@color/gp_green"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="6dp"/>
 
-    <TextView
-        android:id="@+id/printerStatusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Drucker: verbinde..."
-        android:textSize="14sp"
-        android:textColor="#ffaa00"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BESTELLDRUCKER"
+            android:textSize="11sp"
+            android:textColor="@color/gp_text_muted"
+            android:letterSpacing="0.15"
+            android:layout_marginBottom="48dp"/>
 
-    <TextView
-        android:id="@+id/lastOrderText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:textColor="#aaaaaa"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"/>
+        <!-- Status indicator -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/gp_card"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="12dp"
+            android:layout_marginBottom="16dp">
 
-    <Button
-        android:id="@+id/testPrintButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🖨 Test Druck"
-        android:textSize="16sp"
-        android:padding="16dp"
-        android:background="#00aa55"
-        android:textColor="#ffffff"/>
+            <View
+                android:id="@+id/statusDot"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@color/gp_green"
+                android:layout_marginEnd="10dp"/>
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online – warte auf Bestellungen"
+                android:textSize="14sp"
+                android:textColor="@color/gp_text"/>
+        </LinearLayout>
+
+        <!-- Stats row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="48dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/gp_card"
+                android:padding="16dp"
+                android:layout_marginEnd="8dp">
+                <TextView
+                    android:id="@+id/orderCountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="28sp"
+                    android:textColor="@color/gp_green"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Heute"
+                    android:textSize="12sp"
+                    android:textColor="@color/gp_text_muted"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@color/gp_card"
+                android:padding="16dp"
+                android:layout_marginStart="8dp">
+                <TextView
+                    android:id="@+id/revenueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="€0"
+                    android:textSize="28sp"
+                    android:textColor="@color/gp_orange"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Umsatz"
+                    android:textSize="12sp"
+                    android:textColor="@color/gp_text_muted"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/demoButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="DEMO BESTELLUNG"
+            android:textSize="13sp"
+            android:letterSpacing="0.1"
+            android:background="@color/gp_card"
+            android:textColor="@color/gp_text_muted"/>
+
+    </LinearLayout>
+
+    <!-- ORDER INCOMING SCREEN -->
+    <LinearLayout
+        android:id="@+id/orderScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/gp_dark">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/gp_orange"
+            android:paddingVertical="16dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NEUE BESTELLUNG"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"/>
+        </LinearLayout>
+
+        <!-- Order card -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/gp_card"
+                android:padding="16dp">
+
+                <!-- Order meta -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+                    <TextView
+                        android:id="@+id/orderIdText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bestellung #42"
+                        android:textSize="16sp"
+                        android:textColor="@color/gp_text"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/orderTypeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIEFERUNG"
+                        android:textSize="11sp"
+                        android:textColor="@color/gp_orange"
+                        android:background="@color/gp_dark"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"/>
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gp_divider" android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/customerNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Max Mustermann"
+                    android:textSize="15sp"
+                    android:textColor="@color/gp_text"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/customerPhoneText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+43 123 456789"
+                    android:textSize="13sp"
+                    android:textColor="@color/gp_text_muted"
+                    android:layout_marginBottom="16dp"/>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gp_divider" android:layout_marginBottom="12dp"/>
+
+                <!-- Items -->
+                <TextView
+                    android:id="@+id/orderItemsText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2x Margherita Pizza  €17.80\n1x Cola 0.5l  €3.50"
+                    android:textSize="14sp"
+                    android:textColor="@color/gp_text"
+                    android:lineSpacingExtra="6dp"
+                    android:layout_marginBottom="12dp"/>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gp_divider" android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="GESAMT"
+                        android:textSize="14sp"
+                        android:textColor="@color/gp_text_muted"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/orderTotalText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="€21.30"
+                        android:textSize="18sp"
+                        android:textColor="@color/gp_green"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Action buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/rejectButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="ABLEHNEN"
+                android:textSize="13sp"
+                android:letterSpacing="0.1"
+                android:background="@color/gp_red"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="10dp"/>
+
+            <Button
+                android:id="@+id/acceptButton"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="2"
+                android:text="ANNEHMEN"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1"
+                android:background="@color/gp_green"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ACCEPTED SCREEN -->
+    <LinearLayout
+        android:id="@+id/acceptedScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="32dp"
+        android:background="@color/gp_dark">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="✓"
+            android:textSize="32sp"
+            android:textColor="@color/gp_green"
+            android:gravity="center"
+            android:background="@color/gp_card"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/acceptedTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bestellung angenommen"
+            android:textSize="20sp"
+            android:textColor="@color/gp_text"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/acceptedSubText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bon wird gedruckt..."
+            android:textSize="14sp"
+            android:textColor="@color/gp_text_muted"/>
+
+    </LinearLayout>
+
+    <!-- REJECTED SCREEN -->
+    <LinearLayout
+        android:id="@+id/rejectedScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="32dp"
+        android:background="@color/gp_dark">
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="✕"
+            android:textSize="32sp"
+            android:textColor="@color/gp_red"
+            android:gravity="center"
+            android:background="@color/gp_card"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bestellung abgelehnt"
+            android:textSize="20sp"
+            android:textColor="@color/gp_text"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</FrameLayout>

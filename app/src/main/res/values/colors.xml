@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gp_dark">#0F1923</color>
+    <color name="gp_card">#1A2535</color>
+    <color name="gp_green">#00C853</color>
+    <color name="gp_green_dark">#00952E</color>
+    <color name="gp_red">#FF3D3D</color>
+    <color name="gp_red_dark">#C62828</color>
+    <color name="gp_orange">#FF6D00</color>
+    <color name="gp_text">#FFFFFF</color>
+    <color name="gp_text_muted">#8899AA</color>
+    <color name="gp_divider">#243044</color>
+</resources>
