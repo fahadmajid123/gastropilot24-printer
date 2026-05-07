@@ -80,6 +80,19 @@ class PrinterManager(
             return
         }
         try {
+            val state = printer.updatePrinterState()
+            Log.d(TAG, "Drucker-Status: $state")
+            onStatusChanged?.invoke("Drucker-Status: $state (1=OK, 4=kein Papier, 6=niedrige Spannung)")
+        } catch (e: Exception) {
+            Log.e(TAG, "Status-Fehler: ${e.message}")
+        }
+        try {
+            printer.printerSelfChecking(null)
+            Log.d(TAG, "Selbsttest gesendet")
+        } catch (e: Exception) {
+            Log.e(TAG, "Selbsttest Fehler: ${e.message}")
+        }
+        try {
             printer.printerInit(null)
             printer.printText("=== TESTDRUCK ===\n", null)
             printer.printText("GastroPilot24\n", null)
