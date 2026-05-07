@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="🍽️ GastroPilot24"
+        android:text="GastroPilot24"
         android:textSize="28sp"
         android:textColor="#ffffff"
         android:textStyle="bold"
@@ -31,24 +31,16 @@
         android:text="Starte..."
         android:textSize="18sp"
         android:textColor="#00ff88"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"/>
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="200dp"
+    <TextView
+        android:id="@+id/lastOrderText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="▶ Starten"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#00ff88"
-        android:textColor="#000000"/>
-
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="⏹ Stoppen"
-        android:backgroundTint="#ff4444"
-        android:textColor="#ffffff"/>
+        android:text=""
+        android:textSize="14sp"
+        android:textColor="#aaaaaa"
+        android:gravity="center"/>
 
 </LinearLayout>
