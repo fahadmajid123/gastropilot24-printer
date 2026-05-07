@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
-import com.sunmi.peripheral.printer.IWoyouService
+import woyou.aidlservice.jiuiv5.IWoyouService
 
 class PrinterManager(
     private val context: Context,

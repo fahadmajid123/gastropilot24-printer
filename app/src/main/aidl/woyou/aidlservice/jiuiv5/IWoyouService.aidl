@@ -1,5 +1,5 @@
-package com.sunmi.peripheral.printer;
-import com.sunmi.peripheral.printer.ICallback;
+package woyou.aidlservice.jiuiv5;
+import woyou.aidlservice.jiuiv5.ICallback;
 
 interface IWoyouService {
     void printerInit(in ICallback callback);
