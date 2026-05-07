@@ -151,7 +151,7 @@ class OrderPollerService : LifecycleService() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("GastroPilot24 Drucker")
             .setContentText(text)
-            .setSmallIcon(android.R.drawable.ic_print)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .build()
